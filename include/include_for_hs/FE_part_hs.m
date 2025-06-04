@@ -12,14 +12,18 @@ classdef FE_part_hs < handle
 
             obj.Number_of_hysterons = length(Sample.Psat);
 
-            %Для генерации произвольных гистеронов
-            % obj.Enp = [7, 15];
-            % obj.Epn = [-15, -7];
-            %FIXME: magic constant 40
+            % Для генерации произвольных гистеронов
+            % obj.Number_of_hysterons = 10;
+            % obj.Enp = [4, 5];
+            % obj.Epn = [-5, -4];
+            % 
+            % % FIXME: magic constant 40
             % obj.Ps = Rand_range([0, 25/obj.Number_of_hysterons], obj.Number_of_hysterons);
             % Enp_arr = Rand_range(obj.Enp, obj.Number_of_hysterons);
             % Epn_arr = Rand_range(obj.Epn, obj.Number_of_hysterons);
 
+
+            % Для генерации гистеронов из реальных петель
             obj.Ps = Sample.Psat;
             Enp_arr = Sample.Ep;
             Epn_arr = Sample.En;

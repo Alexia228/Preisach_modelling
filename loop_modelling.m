@@ -5,21 +5,20 @@ addpath('include\include_for_hs\')
 [X,Y,Ps] = Data_for_hysterons(feloop);
 
 %Задание геометрии образца
-Sample.area = 1.26e-7; % m^2
-Sample.thickness = 3.5e-5; % m
+Sample.area = 8.27e-7; %m^2
+Sample.thickness = 1e-4; %m
 
-Sample.Psat = Ps/2;
+Sample.Psat = Ps*5;
 Sample.En = Y;
 Sample.Ep = X;
 Sample.negative_effects = false;
 
 %Задание параметры треугольного сигнала
-Amp = 60;
-T_period = 1; % s
+Amp = 600;
+T_period = 4; % s
 
-tic
 
-FE = FE_part_hs (Sample);
+FE = FE_part_hs(Sample);
 
 waveform_up = voltage_triangle(Amp, T_period, 1);
 waveform_down = voltage_triangle(Amp,T_period, -1);
@@ -42,18 +41,23 @@ correction_n = (P_int_3(end)-P_int_3(1))/2;
 
 %Построение обычной петли
 hold on
-plot(Field_1, P_int_1-correction_p, 'r', 'MarkerSize', 5)
-plot(Field_3, P_int_3-correction_n, 'b', 'MarkerSize', 5)
+grid on
+plot(Field_1, P_int_1-correction_p,':', 'LineWidth', 3, 'Color', 'red');
+plot(Field_3, P_int_3-correction_n,':', 'LineWidth', 3, 'Color', 'red')
+
+legend('Experiment','Model','AutoUpdate', 'off','Location','northwest')
 xline(0)
 yline(0)
-set(gca, 'fontsize', 14)
+set(gca, 'fontsize', 20)
 xlabel('E, kV/cm')
 ylabel('P, uC/cm^2')
 
 % Построение петли DWM
+% figure('position', [536 123 600 500])
+% grid on
 % hold on
-% plot(Field_1, P_int_p-correction_p_DWM,'color', '#7E2F8E', 'linewidth', 1.6)
-% plot(Field_3, P_int_n-correction_n_DWM,'color', '#7E2F8E', 'linewidth', 1.6)
+% plot(Field_1, P_int_p-correction_p_DWM,'color', 'red', 'linewidth', 2)
+% plot(Field_3, P_int_n-correction_n_DWM,'color', 'blue', 'linewidth', 2)
 % xline(0)
 % yline(0)
 % set(gca, 'fontsize', 20)
@@ -104,4 +108,3 @@ P_int = (Q_int*1e6)/(Area*100*100);
 Field = (voltage*1e-3)/(Thickness*100);
 
 end
-toc
